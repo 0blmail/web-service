@@ -1,0 +1,25 @@
+version: "3.5"
+
+services:
+  database:
+    container_name: w2b_container
+    image: postgres:12.0-alpine
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "admin"
+      POSTGRES_DB: "w2b"
+      PGDATA: /data/postgres
+    volumes:
+      - ./data:/data/postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - database
+    restart: unless-stopped
+
+networks:
+  database:
+    driver: bridge
+
+volumes:
+  database:
