@@ -1,9 +1,11 @@
-package com.where2beer.ws.common.service;
+package com.where2beer.ws.common.country.service;
 
-import com.where2beer.ws.common.dao.CountryDao;
-import com.where2beer.ws.common.dto.NewCountryDto;
-import com.where2beer.ws.common.model.Country;
+import com.where2beer.ws.common.country.dao.CountryDao;
+import com.where2beer.ws.common.country.dto.NewCountryDto;
+import com.where2beer.ws.common.country.model.Country;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,6 +29,10 @@ public class CountryService {
                 .build();
 
         return this.countryDao.save(country);
+    }
+
+    public Page<Country> search(Pageable pageable) {
+        return this.countryDao.findAll(pageable);
     }
 
     public void delete(Long id) {

@@ -1,9 +1,11 @@
-package com.where2beer.ws.common.controller;
+package com.where2beer.ws.common.country.controller;
 
-import com.where2beer.ws.common.dto.NewCountryDto;
-import com.where2beer.ws.common.model.Country;
-import com.where2beer.ws.common.service.CountryService;
+import com.where2beer.ws.common.country.dto.NewCountryDto;
+import com.where2beer.ws.common.country.model.Country;
+import com.where2beer.ws.common.country.service.CountryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +32,11 @@ public class CountryController {
     @PostMapping
     public Country create(@RequestBody @Valid NewCountryDto countryDto) {
         return this.countryService.create(countryDto);
+    }
+
+    @PostMapping("search")
+    public Page<Country> search(Pageable pageable) {
+        return this.countryService.search(pageable);
     }
 
     @DeleteMapping("{id}")
