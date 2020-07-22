@@ -1,5 +1,6 @@
 package com.where2beer.ws.user.dto;
 
+import com.where2beer.ws.user.model.UserRole;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -26,6 +27,9 @@ public class NewUserDto {
 
     @NotEmpty
     private String lastName;
+
+    @NotNull
+    private UserRole role;
 
     @NotNull
     private boolean emailVerified;

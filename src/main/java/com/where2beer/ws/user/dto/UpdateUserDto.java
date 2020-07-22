@@ -1,5 +1,6 @@
 package com.where2beer.ws.user.dto;
 
+import com.where2beer.ws.user.model.UserRole;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -30,4 +31,7 @@ public class UpdateUserDto {
 
     @NotNull
     private boolean disabled;
+
+    @NotNull
+    private UserRole role;
 }

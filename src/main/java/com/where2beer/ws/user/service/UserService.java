@@ -40,8 +40,10 @@ public class UserService {
                     .email(userDto.getEmail())
                     .firstName(userDto.getFirstName())
                     .lastName(userDto.getLastName())
+                    .pseudo(userDto.getPseudo())
                     .firebaseId(userRecord.getUid())
                     .emailVerified(userDto.isEmailVerified())
+                    .role(userDto.getRole())
                     .build();
 
             return this.userDao.save(user);
@@ -59,6 +61,7 @@ public class UserService {
         user.setLastName(userDto.getLastName());
         user.setEmailVerified(userDto.isEmailVerified());
         user.setDisabled(userDto.isDisabled());
+        user.setRole(userDto.getRole());
 
         try {
             UpdateRequest request = new UpdateRequest(user.getFirebaseId())
