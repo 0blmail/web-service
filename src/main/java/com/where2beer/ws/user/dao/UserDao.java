@@ -10,4 +10,8 @@ import java.util.Optional;
 public interface UserDao extends JpaRepository<User, Long> {
 
     Optional<User> findByFirebaseId(String firebaseId);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByPseudo(String pseudo);
 }

@@ -4,10 +4,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.google.firebase.auth.UserRecord.UpdateRequest;
+import com.where2beer.ws.common.exception.NotFoundException;
 import com.where2beer.ws.common.exception.TechnicalException;
 import com.where2beer.ws.user.dao.UserDao;
-import com.where2beer.ws.user.dto.NewUserDto;
-import com.where2beer.ws.user.dto.UpdateUserDto;
+import com.where2beer.ws.user.dto.UserDto;
 import com.where2beer.ws.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 
 @Service
 @Transactional
@@ -27,7 +28,7 @@ public class UserService {
         return this.userDao.findAll(pageable);
     }
 
-    public User create(NewUserDto userDto) {
+    public User create(UserDto userDto) {
         try {
             CreateRequest firebaseRequest = new CreateRequest()
                     .setEmail(userDto.getEmail())
@@ -35,6 +36,10 @@ public class UserService {
                     .setDisplayName(userDto.getPseudo())
                     .setEmailVerified(userDto.isEmailVerified());
             var userRecord = FirebaseAuth.getInstance().createUser(firebaseRequest);
+
+            var claims = new HashMap<String, Object>();
+            claims.put("role", userDto.getRole().name());
+            FirebaseAuth.getInstance().setCustomUserClaims(userRecord.getUid(), claims);
 
             var user = User.builder()
                     .email(userDto.getEmail())
@@ -52,7 +57,7 @@ public class UserService {
         }
     }
 
-    public User update(UpdateUserDto userDto) {
+    public User update(UserDto userDto) {
         var user = this.userDao.findById(userDto.getId()).orElseThrow(TechnicalException::new);
 
         user.setEmail(userDto.getEmail());
@@ -64,11 +69,15 @@ public class UserService {
         user.setRole(userDto.getRole());
 
         try {
+            var claims = new HashMap<String, Object>();
+            claims.put("role", userDto.getRole().name());
+
             UpdateRequest request = new UpdateRequest(user.getFirebaseId())
                     .setEmail(user.getEmail())
                     .setDisplayName(user.getPseudo())
                     .setEmailVerified(user.isEmailVerified())
-                    .setDisabled(user.isDisabled());
+                    .setDisabled(user.isDisabled())
+                    .setCustomClaims(claims);
             FirebaseAuth.getInstance().updateUser(request);
 
             return this.userDao.save(user);
@@ -78,6 +87,22 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        this.userDao.deleteById(id);
+        try {
+            var user = this.userDao.findById(id).orElseThrow(NotFoundException::new);
+
+            FirebaseAuth.getInstance().deleteUser(user.getFirebaseId());
+
+            this.userDao.deleteById(id);
+        } catch (FirebaseAuthException e) {
+            throw new TechnicalException();
+        }
+    }
+
+    public boolean emailExist(String email) {
+        return this.userDao.existsByEmail(email);
+    }
+
+    public boolean pseudoExist(String pseudo) {
+        return this.userDao.existsByPseudo(pseudo);
     }
 }

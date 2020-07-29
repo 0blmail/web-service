@@ -1,7 +1,7 @@
 package com.where2beer.ws.user.model;
 
 import com.where2beer.ws.common.model.Auditable;
-import com.where2beer.ws.common.picture.model.Picture;
+import com.where2beer.ws.common.model.Picture;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
