@@ -6,8 +6,11 @@ import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.google.firebase.auth.UserRecord.UpdateRequest;
 import com.where2beer.ws.common.exception.NotFoundException;
 import com.where2beer.ws.common.exception.TechnicalException;
+import com.where2beer.ws.common.helper.GenericSpecificationBuilder;
+import com.where2beer.ws.common.model.search.SearchCriterion;
 import com.where2beer.ws.user.dao.UserDao;
 import com.where2beer.ws.user.dto.UserDto;
+import com.where2beer.ws.user.helper.UserSpecification;
 import com.where2beer.ws.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 @Transactional
@@ -24,8 +28,10 @@ public class UserService {
 
     private final UserDao userDao;
 
-    public Page<User> search(Pageable pageable) {
-        return this.userDao.findAll(pageable);
+    public Page<User> search(List<SearchCriterion> criteria, Pageable pageable) {
+        var builder = new GenericSpecificationBuilder<User>(criteria);
+
+        return this.userDao.findAll(builder.build(UserSpecification::new), pageable);
     }
 
     public User create(UserDto userDto) {
@@ -60,8 +66,6 @@ public class UserService {
     public User update(UserDto userDto) {
         var user = this.userDao.findById(userDto.getId()).orElseThrow(TechnicalException::new);
 
-        user.setEmail(userDto.getEmail());
-        user.setPseudo(userDto.getPseudo());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmailVerified(userDto.isEmailVerified());
@@ -73,8 +77,6 @@ public class UserService {
             claims.put("role", userDto.getRole().name());
 
             UpdateRequest request = new UpdateRequest(user.getFirebaseId())
-                    .setEmail(user.getEmail())
-                    .setDisplayName(user.getPseudo())
                     .setEmailVerified(user.isEmailVerified())
                     .setDisabled(user.isDisabled())
                     .setCustomClaims(claims);
@@ -99,10 +101,10 @@ public class UserService {
     }
 
     public boolean emailExist(String email) {
-        return this.userDao.existsByEmail(email);
+        return this.userDao.existsByEmailContainingIgnoreCase(email);
     }
 
     public boolean pseudoExist(String pseudo) {
-        return this.userDao.existsByPseudo(pseudo);
+        return this.userDao.existsByPseudoContainingIgnoreCase(pseudo);
     }
 }

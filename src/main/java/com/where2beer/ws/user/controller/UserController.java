@@ -1,8 +1,10 @@
 package com.where2beer.ws.user.controller;
 
 import com.where2beer.ws.common.exception.BadRequestException;
-import com.where2beer.ws.common.model.CreateGroup;
-import com.where2beer.ws.common.model.UpdateGroup;
+import com.where2beer.ws.common.helper.CriteriaHelper;
+import com.where2beer.ws.common.model.dto.CreateGroup;
+import com.where2beer.ws.common.model.dto.UpdateGroup;
+import com.where2beer.ws.common.model.search.SearchCriterion;
 import com.where2beer.ws.user.dto.UserDto;
 import com.where2beer.ws.user.model.User;
 import com.where2beer.ws.user.service.UserService;
@@ -17,7 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("users")
@@ -31,9 +36,11 @@ public class UserController {
         return this.userService.create(dto);
     }
 
-    @PostMapping("search")
-    public Page<User> search(Pageable pageable) {
-        return this.userService.search(pageable);
+    @GetMapping("search")
+    public Page<User> search(@RequestParam("criteria") String params, Pageable pageable) {
+        List<SearchCriterion> criteria = CriteriaHelper.fromString(params);
+
+        return this.userService.search(criteria, pageable);
     }
 
     @GetMapping("search/email/{email}")

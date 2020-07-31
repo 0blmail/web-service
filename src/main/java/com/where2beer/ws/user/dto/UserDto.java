@@ -1,7 +1,7 @@
 package com.where2beer.ws.user.dto;
 
-import com.where2beer.ws.common.model.CreateGroup;
-import com.where2beer.ws.common.model.UpdateGroup;
+import com.where2beer.ws.common.model.dto.CreateGroup;
+import com.where2beer.ws.common.model.dto.UpdateGroup;
 import com.where2beer.ws.user.model.UserRole;
 import lombok.Data;
 
