@@ -10,7 +10,7 @@ import com.where2beer.ws.common.helper.GenericSpecificationBuilder;
 import com.where2beer.ws.common.model.search.SearchCriterion;
 import com.where2beer.ws.user.dao.UserDao;
 import com.where2beer.ws.user.dto.UserDto;
-import com.where2beer.ws.user.helper.UserSpecification;
+import com.where2beer.ws.user.dao.UserSpecification;
 import com.where2beer.ws.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -86,6 +86,10 @@ public class UserService {
         } catch (FirebaseAuthException e) {
             throw new TechnicalException();
         }
+    }
+
+    public User find(Long id) {
+        return this.userDao.findById(id).orElse(null);
     }
 
     public void delete(Long id) {

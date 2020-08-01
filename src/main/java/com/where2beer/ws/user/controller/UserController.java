@@ -53,6 +53,11 @@ public class UserController {
         return this.userService.pseudoExist(pseudo);
     }
 
+    @GetMapping("{id}")
+    public User find(@PathVariable Long id) {
+        return this.userService.find(id);
+    }
+
     @PutMapping("{id}")
     public User update(@RequestBody @Validated(UpdateGroup.class) UserDto dto, @PathVariable Long id) {
         if (!id.equals(dto.getId())) {

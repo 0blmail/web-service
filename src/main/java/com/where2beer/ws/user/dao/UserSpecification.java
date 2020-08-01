@@ -1,4 +1,4 @@
-package com.where2beer.ws.user.helper;
+package com.where2beer.ws.user.dao;
 
 import com.where2beer.ws.common.helper.SpecificationHelper;
 import com.where2beer.ws.common.model.search.SearchCriterion;
@@ -24,8 +24,9 @@ public class UserSpecification implements Specification<User> {
             Predicate emailLike = builder.like(builder.lower(root.get("email")), pattern);
             Predicate firstNameLike = builder.like(builder.lower(root.get("firstName")), pattern);
             Predicate lastNameLike = builder.like(builder.lower(root.get("lastName")), pattern);
+            Predicate pseudoLike = builder.like(builder.lower(root.get("pseudo")), pattern);
 
-            return builder.or(emailLike, firstNameLike, lastNameLike);
+            return builder.or(emailLike, firstNameLike, lastNameLike, pseudoLike);
         }
 
         return SpecificationHelper.predicate(criterion, root, query, builder);
