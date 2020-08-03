@@ -4,7 +4,9 @@ import com.where2beer.ws.common.country.dto.CountryDto;
 import com.where2beer.ws.common.country.model.Country;
 import com.where2beer.ws.common.country.service.CountryService;
 import com.where2beer.ws.common.exception.BadRequestException;
-import com.where2beer.ws.common.model.UpdateGroup;
+import com.where2beer.ws.common.helper.CriteriaHelper;
+import com.where2beer.ws.common.model.dto.UpdateGroup;
+import com.where2beer.ws.common.model.search.SearchCriterion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -37,9 +40,11 @@ public class CountryController {
         return this.countryService.create(countryDto);
     }
 
-    @PostMapping("search")
-    public Page<Country> search(Pageable pageable) {
-        return this.countryService.search(pageable);
+    @GetMapping("search")
+    public Page<Country> search(@RequestParam("criteria") String params, Pageable pageable) {
+        List<SearchCriterion> criteria = CriteriaHelper.fromString(params);
+
+        return this.countryService.search(criteria, pageable);
     }
 
     @PutMapping("{id}")

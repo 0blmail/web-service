@@ -1,9 +1,12 @@
 package com.where2beer.ws.common.country.service;
 
 import com.where2beer.ws.common.country.dao.CountryDao;
+import com.where2beer.ws.common.country.dao.CountrySpecification;
 import com.where2beer.ws.common.country.dto.CountryDto;
 import com.where2beer.ws.common.country.model.Country;
 import com.where2beer.ws.common.exception.NotFoundException;
+import com.where2beer.ws.common.helper.GenericSpecificationBuilder;
+import com.where2beer.ws.common.model.search.SearchCriterion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +35,10 @@ public class CountryService {
         return this.countryDao.save(country);
     }
 
-    public Page<Country> search(Pageable pageable) {
-        return this.countryDao.findAll(pageable);
+    public Page<Country> search(List<SearchCriterion> criteria, Pageable pageable) {
+        var builder = new GenericSpecificationBuilder<Country>(criteria);
+
+        return this.countryDao.findAll(builder.build(CountrySpecification::new), pageable);
     }
 
     public Country update(CountryDto dto) {
