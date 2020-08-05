@@ -1,9 +1,9 @@
-package com.where2beer.ws.common.country.service;
+package com.where2beer.ws.country.service;
 
-import com.where2beer.ws.common.country.dao.CountryDao;
-import com.where2beer.ws.common.country.dao.CountrySpecification;
-import com.where2beer.ws.common.country.dto.CountryDto;
-import com.where2beer.ws.common.country.model.Country;
+import com.where2beer.ws.country.dao.CountryDao;
+import com.where2beer.ws.country.dao.CountrySpecification;
+import com.where2beer.ws.country.dto.CountryDto;
+import com.where2beer.ws.country.model.Country;
 import com.where2beer.ws.common.exception.NotFoundException;
 import com.where2beer.ws.common.helper.GenericSpecificationBuilder;
 import com.where2beer.ws.common.model.search.SearchCriterion;

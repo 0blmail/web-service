@@ -1,4 +1,4 @@
-package com.where2beer.ws.common.country.dto;
+package com.where2beer.ws.country.dto;
 
 import com.where2beer.ws.common.model.dto.UpdateGroup;
 import lombok.Data;

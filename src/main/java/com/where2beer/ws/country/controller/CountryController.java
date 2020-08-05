@@ -1,8 +1,8 @@
-package com.where2beer.ws.common.country.controller;
+package com.where2beer.ws.country.controller;
 
-import com.where2beer.ws.common.country.dto.CountryDto;
-import com.where2beer.ws.common.country.model.Country;
-import com.where2beer.ws.common.country.service.CountryService;
+import com.where2beer.ws.country.dto.CountryDto;
+import com.where2beer.ws.country.model.Country;
+import com.where2beer.ws.country.service.CountryService;
 import com.where2beer.ws.common.exception.BadRequestException;
 import com.where2beer.ws.common.helper.CriteriaHelper;
 import com.where2beer.ws.common.model.dto.UpdateGroup;

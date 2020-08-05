@@ -1,6 +1,6 @@
-package com.where2beer.ws.common.country.dao;
+package com.where2beer.ws.country.dao;
 
-import com.where2beer.ws.common.country.model.Country;
+import com.where2beer.ws.country.model.Country;
 import com.where2beer.ws.common.model.search.SearchCriterion;
 import com.where2beer.ws.common.model.search.SearchOperation;
 import lombok.RequiredArgsConstructor;
