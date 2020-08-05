@@ -1,6 +1,6 @@
 package com.where2beer.ws.beer.dto;
 
-import com.where2beer.ws.common.model.UpdateGroup;
+import com.where2beer.ws.common.model.dto.UpdateGroup;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;

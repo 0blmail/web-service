@@ -4,7 +4,9 @@ import com.where2beer.ws.beer.dto.BeerTypeDto;
 import com.where2beer.ws.beer.model.BeerType;
 import com.where2beer.ws.beer.service.BeerTypeService;
 import com.where2beer.ws.common.exception.BadRequestException;
-import com.where2beer.ws.common.model.UpdateGroup;
+import com.where2beer.ws.common.helper.CriteriaHelper;
+import com.where2beer.ws.common.model.dto.UpdateGroup;
+import com.where2beer.ws.common.model.search.SearchCriterion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,9 +35,11 @@ public class BeerTypeController {
         return this.beerTypeService.findAll();
     }
 
-    @PostMapping("search")
-    public Page<BeerType> search(Pageable pageable) {
-        return this.beerTypeService.search(pageable);
+    @GetMapping("search")
+    public Page<BeerType> search(@RequestParam("criteria") String params, Pageable pageable) {
+        List<SearchCriterion> criteria = CriteriaHelper.fromString(params);
+
+        return this.beerTypeService.search(criteria, pageable);
     }
 
     @PostMapping
