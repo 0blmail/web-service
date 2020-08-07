@@ -1,16 +1,19 @@
 package com.where2beer.ws.beer.service;
 
 import com.where2beer.ws.beer.dao.BeerDao;
-import com.where2beer.ws.beer.dto.NewBeerDto;
-import com.where2beer.ws.beer.dto.UpdateBeerDto;
+import com.where2beer.ws.beer.dto.BeerDto;
+import com.where2beer.ws.beer.helper.BeerSpecification;
 import com.where2beer.ws.beer.model.Beer;
-import com.where2beer.ws.common.exception.TechnicalException;
+import com.where2beer.ws.common.exception.NotFoundException;
+import com.where2beer.ws.common.helper.GenericSpecificationBuilder;
+import com.where2beer.ws.common.model.search.SearchCriterion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -19,11 +22,13 @@ public class BeerService {
 
     private final BeerDao beerDao;
 
-    public Page<Beer> search(Pageable pageable) {
-        return this.beerDao.findAll(pageable);
+    public Page<Beer> search(List<SearchCriterion> criteria, Pageable pageable) {
+        var builder = new GenericSpecificationBuilder<Beer>(criteria);
+
+        return this.beerDao.findAll(builder.build(BeerSpecification::new), pageable);
     }
 
-    public Beer create(NewBeerDto beerDto) {
+    public Beer create(BeerDto beerDto) {
         var beer = Beer.builder()
                 .name(beerDto.getName())
                 .degree(beerDto.getDegree())
@@ -39,8 +44,21 @@ public class BeerService {
         return this.beerDao.save(beer);
     }
 
-    public Beer update(UpdateBeerDto beerDto) {
-        var beer = this.beerDao.findById(beerDto.getId()).orElseThrow(TechnicalException::new);
+    public Beer find(Long id) {
+        return this.beerDao.findById(id).orElse(null);
+    }
+
+    public Beer update(BeerDto beerDto) {
+        var beer = this.beerDao.findById(beerDto.getId()).orElseThrow(NotFoundException::new);
+
+        beer.setName(beerDto.getName());
+        beer.setDegree(beerDto.getDegree());
+        beer.setColor(beerDto.getColor());
+        beer.setType(beerDto.getType());
+        beer.setCountry(beerDto.getCountry());
+        beer.setBackground(beerDto.getBackground());
+        beer.setSummary(beerDto.getSummary());
+        beer.setDescription(beerDto.getDescription());
 
         return this.beerDao.save(beer);
     }
