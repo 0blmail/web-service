@@ -1,12 +1,12 @@
 package com.where2beer.ws.country.controller;
 
-import com.where2beer.ws.country.dto.CountryDto;
-import com.where2beer.ws.country.model.Country;
-import com.where2beer.ws.country.service.CountryService;
 import com.where2beer.ws.common.exception.BadRequestException;
 import com.where2beer.ws.common.helper.CriteriaHelper;
 import com.where2beer.ws.common.model.dto.UpdateGroup;
 import com.where2beer.ws.common.model.search.SearchCriterion;
+import com.where2beer.ws.country.dto.CountryDto;
+import com.where2beer.ws.country.model.Country;
+import com.where2beer.ws.country.service.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +41,7 @@ public class CountryController {
     }
 
     @GetMapping("search")
-    public Page<Country> search(@RequestParam("criteria") String params, Pageable pageable) {
+    public Page<Country> search(@RequestParam(value = "criteria", required = false) String params, Pageable pageable) {
         List<SearchCriterion> criteria = CriteriaHelper.fromString(params);
 
         return this.countryService.search(criteria, pageable);

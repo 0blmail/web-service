@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping("search")
-    public Page<User> search(@RequestParam("criteria") String params, Pageable pageable) {
+    public Page<User> search(@RequestParam(value = "criteria", required = false) String params, Pageable pageable) {
         List<SearchCriterion> criteria = CriteriaHelper.fromString(params);
 
         return this.userService.search(criteria, pageable);
