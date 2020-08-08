@@ -8,8 +8,16 @@ spring:
   jpa:
     database: POSTGRESQL
     show-sql: true
+    hibernate:
+      ddl-auto: none
   data:
     web:
       pageable:
         max-page-size: 200
         default-page-size: 50
+  liquibase:
+    change-log: classpath:/db/changelog-master.yaml
+
+logging:
+  level:
+    liquibase: INFO
