@@ -10,6 +10,12 @@ target/
 ### Maven ###
 /.mvn/
 
+### Properties ###
+/src/main/resources/firebase/
+
+### MacOS ###
+.DS_Store
+
 ### STS ###
 .apt_generated
 .classpath

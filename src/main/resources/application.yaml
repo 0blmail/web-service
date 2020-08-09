@@ -21,3 +21,8 @@ spring:
 logging:
   level:
     liquibase: INFO
+
+app:
+  firebase:
+    database-url: https://where2beer-dev.firebaseio.com
+    credential-path: /firebase/where2beer.json
