@@ -30,10 +30,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers(HttpMethod.OPTIONS, "/**")
+                .antMatchers(HttpMethod.GET, "/countries")
                 .antMatchers(HttpMethod.GET, "/countries/search")
                 .antMatchers(HttpMethod.GET, "/beers/search")
                 .antMatchers(HttpMethod.GET, "/bars/search")
                 .antMatchers(HttpMethod.GET, "/users/search/**")
+                .antMatchers(HttpMethod.GET, "/beers/types")
                 .antMatchers(HttpMethod.GET, "/beers/types/search");
     }
 
