@@ -52,7 +52,7 @@ public class Beer extends Auditable {
     @Column
     private String summary;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @OneToOne(cascade = CascadeType.ALL)
