@@ -22,7 +22,7 @@ public final class CriteriaHelper {
                     .map(SearchOperation::toString)
                     .map(character -> "\\" + character)
                     .collect(Collectors.joining("|"));
-            var pattern = Pattern.compile("(\\w+?)(" + codes + ")(\\w+?);");
+            var pattern = Pattern.compile("(.+)(" + codes + ")(.+);");
             var criteria = new ArrayList<SearchCriterion>();
 
             if (!StringUtils.isBlank(criteriaParams)) {
