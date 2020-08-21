@@ -6,6 +6,7 @@ import com.where2beer.ws.bar.helper.BarSpecification;
 import com.where2beer.ws.bar.model.Bar;
 import com.where2beer.ws.common.exception.NotFoundException;
 import com.where2beer.ws.common.helper.GenericSpecificationBuilder;
+import com.where2beer.ws.common.model.Address;
 import com.where2beer.ws.common.model.search.SearchCriterion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,11 +30,24 @@ public class BarService {
     }
 
     public Bar create(BarDto barDto) {
+        var addressDto = barDto.getAddress();
+
+        var address = Address.builder()
+                .line(addressDto.getLine())
+                .zipCode(addressDto.getZipCode())
+                .city(addressDto.getCity())
+                .country(addressDto.getCountry())
+                .longitude(addressDto.getLongitude())
+                .longitudeInRad(Math.toRadians(addressDto.getLongitude()))
+                .latitude(addressDto.getLatitude())
+                .latitudeInRad(Math.toRadians(addressDto.getLatitude()))
+                .build();
+
         var bar = Bar.builder()
                 .name(barDto.getName())
                 .beers(barDto.getBeers())
                 .pictures(barDto.getPictures())
-                .address(barDto.getAddress())
+                .address(address)
                 .build();
 
         return this.barDao.save(bar);
