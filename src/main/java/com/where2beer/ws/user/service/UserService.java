@@ -4,13 +4,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.google.firebase.auth.UserRecord.UpdateRequest;
-import com.where2beer.ws.common.exception.NotFoundException;
-import com.where2beer.ws.common.exception.TechnicalException;
+import com.where2beer.ws.common.exception.RestExceptionEnum;
+import com.where2beer.ws.common.exception.custom.NotFoundException;
+import com.where2beer.ws.common.exception.custom.TechnicalException;
 import com.where2beer.ws.common.helper.GenericSpecificationBuilder;
 import com.where2beer.ws.common.model.search.SearchCriterion;
 import com.where2beer.ws.user.dao.UserDao;
-import com.where2beer.ws.user.dto.UserDto;
 import com.where2beer.ws.user.dao.UserSpecification;
+import com.where2beer.ws.user.dto.UserDto;
 import com.where2beer.ws.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -59,12 +60,12 @@ public class UserService {
 
             return this.userDao.save(user);
         } catch (FirebaseAuthException e) {
-            throw new TechnicalException();
+            throw new TechnicalException(RestExceptionEnum.FIREBASE_AUTH_EXCEPTION);
         }
     }
 
     public User update(UserDto userDto) {
-        var user = this.userDao.findById(userDto.getId()).orElseThrow(TechnicalException::new);
+        var user = this.userDao.findById(userDto.getId()).orElseThrow(NotFoundException::new);
 
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -84,7 +85,7 @@ public class UserService {
 
             return this.userDao.save(user);
         } catch (FirebaseAuthException e) {
-            throw new TechnicalException();
+            throw new TechnicalException(RestExceptionEnum.FIREBASE_AUTH_EXCEPTION);
         }
     }
 
@@ -100,7 +101,7 @@ public class UserService {
 
             this.userDao.deleteById(id);
         } catch (FirebaseAuthException e) {
-            throw new TechnicalException();
+            throw new TechnicalException(RestExceptionEnum.FIREBASE_AUTH_EXCEPTION);
         }
     }
 

@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum SearchOperation {
-    EQUAL(":"),
     IN("|"),
+    BETWEEN(":"),
     LIKE("~");
 
     private final String code;

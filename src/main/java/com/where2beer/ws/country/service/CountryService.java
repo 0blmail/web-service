@@ -4,7 +4,7 @@ import com.where2beer.ws.country.dao.CountryDao;
 import com.where2beer.ws.country.dao.CountrySpecification;
 import com.where2beer.ws.country.dto.CountryDto;
 import com.where2beer.ws.country.model.Country;
-import com.where2beer.ws.common.exception.NotFoundException;
+import com.where2beer.ws.common.exception.custom.NotFoundException;
 import com.where2beer.ws.common.helper.GenericSpecificationBuilder;
 import com.where2beer.ws.common.model.search.SearchCriterion;
 import lombok.RequiredArgsConstructor;

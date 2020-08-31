@@ -1,7 +1,6 @@
 package com.where2beer.ws.common.security.provider;
 
 import com.where2beer.ws.common.security.model.FirebaseAuthenticationToken;
-import com.where2beer.ws.common.security.service.ContextService;
 import com.where2beer.ws.user.model.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -18,8 +17,6 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class FirebaseAuthenticationProvider implements AuthenticationProvider {
-
-    private final ContextService contextService;
 
     @Override
     public boolean supports(Class<?> authentication) {

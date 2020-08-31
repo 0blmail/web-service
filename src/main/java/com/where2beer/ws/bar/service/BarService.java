@@ -4,7 +4,7 @@ import com.where2beer.ws.bar.dao.BarDao;
 import com.where2beer.ws.bar.dto.BarDto;
 import com.where2beer.ws.bar.helper.BarSpecification;
 import com.where2beer.ws.bar.model.Bar;
-import com.where2beer.ws.common.exception.NotFoundException;
+import com.where2beer.ws.common.exception.custom.NotFoundException;
 import com.where2beer.ws.common.helper.GenericSpecificationBuilder;
 import com.where2beer.ws.common.model.Address;
 import com.where2beer.ws.common.model.search.SearchCriterion;

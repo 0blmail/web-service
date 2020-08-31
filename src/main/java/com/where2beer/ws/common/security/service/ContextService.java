@@ -1,7 +1,6 @@
 package com.where2beer.ws.common.security.service;
 
-import com.where2beer.ws.common.exception.TechnicalException;
-import com.where2beer.ws.common.security.exception.ForbiddenException;
+import com.where2beer.ws.common.exception.custom.NotFoundException;
 import com.where2beer.ws.user.dao.UserDao;
 import com.where2beer.ws.user.model.User;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ public class ContextService {
     private final UserDao userDao;
 
     public User loadUserByFirebaseId(String firebaseId) {
-        return this.userDao.findByFirebaseId(firebaseId).orElseThrow(ForbiddenException::new);
+        return this.userDao.findByFirebaseId(firebaseId).orElseThrow(NotFoundException::new);
     }
 
     public Optional<User> loadFromContext() {
@@ -33,6 +32,6 @@ public class ContextService {
     }
 
     public User loadCurrent() {
-        return this.loadFromContext().orElseThrow(TechnicalException::new);
+        return this.loadFromContext().orElseThrow(NotFoundException::new);
     }
 }

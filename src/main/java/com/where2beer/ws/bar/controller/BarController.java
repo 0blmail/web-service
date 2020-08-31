@@ -3,7 +3,8 @@ package com.where2beer.ws.bar.controller;
 import com.where2beer.ws.bar.dto.BarDto;
 import com.where2beer.ws.bar.model.Bar;
 import com.where2beer.ws.bar.service.BarService;
-import com.where2beer.ws.common.exception.BadRequestException;
+import com.where2beer.ws.common.exception.RestExceptionEnum;
+import com.where2beer.ws.common.exception.custom.BadRequestException;
 import com.where2beer.ws.common.helper.CriteriaHelper;
 import com.where2beer.ws.common.model.dto.UpdateGroup;
 import com.where2beer.ws.common.model.search.SearchCriterion;
@@ -45,7 +46,7 @@ public class BarController {
     @PutMapping("{id}")
     public Bar update(@PathVariable Long id, @RequestBody @Validated(UpdateGroup.class) BarDto barDto) {
         if (!id.equals(barDto.getId())) {
-            throw new BadRequestException();
+            throw new BadRequestException(RestExceptionEnum.DIFFERENT_ID);
         }
 
         return this.barService.update(barDto);

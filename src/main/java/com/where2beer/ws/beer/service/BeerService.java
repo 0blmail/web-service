@@ -4,7 +4,7 @@ import com.where2beer.ws.beer.dao.BeerDao;
 import com.where2beer.ws.beer.dto.BeerDto;
 import com.where2beer.ws.beer.helper.BeerSpecification;
 import com.where2beer.ws.beer.model.Beer;
-import com.where2beer.ws.common.exception.NotFoundException;
+import com.where2beer.ws.common.exception.custom.NotFoundException;
 import com.where2beer.ws.common.helper.GenericSpecificationBuilder;
 import com.where2beer.ws.common.model.search.SearchCriterion;
 import lombok.RequiredArgsConstructor;

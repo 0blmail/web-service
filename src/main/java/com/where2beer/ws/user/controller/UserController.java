@@ -1,6 +1,7 @@
 package com.where2beer.ws.user.controller;
 
-import com.where2beer.ws.common.exception.BadRequestException;
+import com.where2beer.ws.common.exception.RestExceptionEnum;
+import com.where2beer.ws.common.exception.custom.BadRequestException;
 import com.where2beer.ws.common.helper.CriteriaHelper;
 import com.where2beer.ws.common.model.dto.CreateGroup;
 import com.where2beer.ws.common.model.dto.UpdateGroup;
@@ -61,7 +62,7 @@ public class UserController {
     @PutMapping("{id}")
     public User update(@RequestBody @Validated(UpdateGroup.class) UserDto dto, @PathVariable Long id) {
         if (!id.equals(dto.getId())) {
-            throw new BadRequestException();
+            throw new BadRequestException(RestExceptionEnum.DIFFERENT_ID);
         }
 
         return this.userService.update(dto);

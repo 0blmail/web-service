@@ -1,7 +1,8 @@
 package com.where2beer.ws.common.security.config;
 
-import com.where2beer.ws.common.security.filter.FirebaseFilter;
+import com.where2beer.ws.common.security.helper.ErrorResponseHelper;
 import com.where2beer.ws.common.security.provider.FirebaseAuthenticationProvider;
+import com.where2beer.ws.common.security.provider.FirebaseFilter;
 import com.where2beer.ws.user.model.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -25,6 +26,7 @@ import java.util.List;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final FirebaseAuthenticationProvider firebaseAuthenticationProvider;
+    private final ErrorResponseHelper errorResponseHelper;
 
     @Override
     public void configure(WebSecurity web) {
@@ -43,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.antMatcher("/**")
                 .authenticationProvider(firebaseAuthenticationProvider)
-                .addFilterBefore(new FirebaseFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new FirebaseFilter(errorResponseHelper), BasicAuthenticationFilter.class)
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/countries", "/beers", "/beers/types").hasAuthority(UserRole.EDITOR.name())
